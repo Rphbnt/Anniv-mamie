@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Joyeux Anniversaire Mamie 🎂</title>
   <style>
     body {
@@ -13,59 +14,62 @@
       flex-direction: column;
       background: linear-gradient(to top right, #ffcccc, #ffe6e6);
       overflow: hidden;
-      font-family: "Comic Sans MS", cursive;
+      font-family: "Comic Sans MS", cursive, sans-serif;
       text-align: center;
     }
     h1 {
       color: #d63384;
-      font-size: 2.5em;
-      margin-bottom: 20px;
+      font-size: 1.8em;
+      margin: 10px;
       z-index: 2;
       position: relative;
     }
     .balloon {
-      width: 80px;
-      height: 100px;
+      width: 50px;
+      height: 70px;
       border-radius: 50%;
       position: absolute;
-      bottom: -120px;
-      animation: floatUp 10s linear infinite;
+      bottom: -80px;
+      animation: floatUp 8s linear infinite;
       z-index: 1;
       opacity: 0.9;
     }
     .string {
       width: 2px;
-      height: 60px;
+      height: 40px;
       background: #333;
       margin: auto;
-      margin-top: -10px;
+      margin-top: -8px;
     }
     @keyframes floatUp {
       from { transform: translateY(0); }
-      to { transform: translateY(-120vh); }
+      to { transform: translateY(-110vh); }
     }
     .poem {
-      display: none;
-      font-size: 1.3em;
+      font-size: 1.1em;
       color: #4b2c5e;
       background: #fff;
-      padding: 20px;
-      border-radius: 15px;
-      max-width: 600px;
-      line-height: 1.5em;
+      padding: 15px;
+      border-radius: 12px;
+      max-width: 90%;
+      line-height: 1.4em;
       box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
       z-index: 2;
-      animation: fadeIn 2s forwards;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: showPoem 2s forwards;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes showPoem {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
     /* Confettis */
     .confetti {
       position: fixed;
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       top: -10px;
       animation: fall 3s linear forwards;
       z-index: 0;
@@ -89,7 +93,7 @@
   </div>
 
   <script>
-    // Génère les ballons en continu
+    // Ballons décoratifs
     function createBalloon() {
       const balloon = document.createElement("div");
       balloon.className = "balloon";
@@ -100,19 +104,13 @@
       balloon.appendChild(string);
       document.body.appendChild(balloon);
 
-      setTimeout(() => { balloon.remove(); }, 10000);
+      setTimeout(() => { balloon.remove(); }, 8000);
     }
-    setInterval(createBalloon, 1000);
+    setInterval(createBalloon, 800);
 
-    // Affiche le poème automatiquement après 6 secondes
-    setTimeout(() => {
-      document.getElementById("poem").style.display = "block";
-      launchConfetti();
-    }, 6000);
-
-    // 🎊 Confettis à la fin
+    // Confettis dès l’ouverture
     function launchConfetti() {
-      for (let i = 0; i < 120; i++) {
+      for (let i = 0; i < 100; i++) {
         const confetti = document.createElement("div");
         confetti.className = "confetti";
         confetti.style.left = Math.random() * 100 + "vw";
@@ -122,6 +120,7 @@
         setTimeout(() => confetti.remove(), 4000);
       }
     }
+    launchConfetti();
   </script>
 </body>
 </html>
