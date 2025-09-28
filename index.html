@@ -20,25 +20,27 @@
       color: #d63384;
       font-size: 2.5em;
       margin-bottom: 20px;
+      z-index: 2;
+      position: relative;
     }
     .balloon {
       width: 80px;
       height: 100px;
-      background: radial-gradient(circle at 30% 30%, #ff6699, #cc3366);
-      border-radius: 50% 50% 50% 50%;
+      border-radius: 50%;
       position: absolute;
       bottom: -120px;
       cursor: pointer;
-      animation: floatUp 10s linear infinite;
+      animation: floatUp 10s linear forwards;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 1;
     }
     .string {
       width: 2px;
       height: 60px;
       background: #333;
-      position: absolute;
-      bottom: -60px;
-      left: 50%;
-      transform: translateX(-50%);
+      margin-bottom: -60px;
     }
     @keyframes floatUp {
       from { transform: translateY(0); }
@@ -54,6 +56,7 @@
       border-radius: 10px;
       display: none;
       animation: fadeIn 1s;
+      z-index: 2;
     }
     .poem {
       display: none;
@@ -65,10 +68,24 @@
       max-width: 600px;
       line-height: 1.5em;
       box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+      z-index: 2;
     }
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
+    }
+    /* Confettis */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: red;
+      top: -10px;
+      animation: fall 3s linear forwards;
+      z-index: 0;
+    }
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(720deg); }
     }
   </style>
 </head>
@@ -96,28 +113,36 @@
     ];
 
     let balloonsClicked = 0;
-    const totalBalloons = 8; // après 8 ballons cliqués, on affiche le poème
+    const totalBalloons = 8; // après 8 ballons cliqués → poème
 
     function createBalloon() {
       const balloon = document.createElement("div");
       balloon.className = "balloon";
       balloon.style.left = Math.random() * 90 + "vw";
       balloon.style.background = `radial-gradient(circle at 30% 30%, hsl(${Math.random()*360},70%,70%), hsl(${Math.random()*360},70%,40%))`;
+
       const string = document.createElement("div");
       string.className = "string";
       balloon.appendChild(string);
       document.body.appendChild(balloon);
 
       balloon.addEventListener("click", () => {
+        // Message doux
         const msg = messages[Math.floor(Math.random() * messages.length)];
         document.getElementById("message").innerText = msg;
         document.getElementById("message").style.display = "block";
-        balloon.remove();
-        balloonsClicked++;
 
+        // Pop visuel
+        balloon.style.transition = "transform 0.2s, opacity 0.2s";
+        balloon.style.transform = "scale(1.3)";
+        balloon.style.opacity = "0";
+        setTimeout(() => balloon.remove(), 200);
+
+        balloonsClicked++;
         if (balloonsClicked >= totalBalloons) {
           document.getElementById("message").style.display = "none";
           document.getElementById("poem").style.display = "block";
+          launchConfetti();
         }
       });
 
@@ -125,6 +150,19 @@
     }
 
     setInterval(createBalloon, 1500);
+
+    // 🎊 Confettis à la fin
+    function launchConfetti() {
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.background = `hsl(${Math.random()*360},100%,50%)`;
+        confetti.style.animationDuration = (2 + Math.random()*2) + "s";
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 4000);
+      }
+    }
   </script>
 </body>
 </html>
