@@ -24,40 +24,25 @@
       position: relative;
     }
     .balloon {
-      width: 100px;   /* plus grand */
-      height: 130px;  /* plus grand */
+      width: 80px;
+      height: 100px;
       border-radius: 50%;
       position: absolute;
-      bottom: -150px;
-      cursor: pointer;
-      animation: floatUp 10s linear forwards;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
+      bottom: -120px;
+      animation: floatUp 10s linear infinite;
       z-index: 1;
-      box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+      opacity: 0.9;
     }
     .string {
-      width: 3px;
-      height: 70px;
+      width: 2px;
+      height: 60px;
       background: #333;
-      margin-bottom: -70px;
+      margin: auto;
+      margin-top: -10px;
     }
     @keyframes floatUp {
       from { transform: translateY(0); }
       to { transform: translateY(-120vh); }
-    }
-    .message {
-      position: fixed;
-      bottom: 30px;
-      font-size: 1.5em;
-      color: #333;
-      background: #fff8dc;
-      padding: 10px 20px;
-      border-radius: 10px;
-      display: none;
-      animation: fadeIn 1s;
-      z-index: 2;
     }
     .poem {
       display: none;
@@ -70,6 +55,7 @@
       line-height: 1.5em;
       box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
       z-index: 2;
+      animation: fadeIn 2s forwards;
     }
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -78,9 +64,8 @@
     /* Confettis */
     .confetti {
       position: fixed;
-      width: 12px;
-      height: 12px;
-      background: red;
+      width: 10px;
+      height: 10px;
       top: -10px;
       animation: fall 3s linear forwards;
       z-index: 0;
@@ -92,7 +77,6 @@
 </head>
 <body>
   <h1>🎉 Joyeux Anniversaire Mamie 🎉</h1>
-  <div class="message" id="message"></div>
   <div class="poem" id="poem">
     <p>🌸 Ma douce mamie, en ce beau jour,<br>
     Nous t’offrons nos rires, nos câlins, notre amour.<br>
@@ -105,52 +89,26 @@
   </div>
 
   <script>
-    const messages = [
-      "On t’aime Mamie ❤️",
-      "Merci pour tes câlins 🤗",
-      "Tu es la meilleure 🌸",
-      "Bisous de toute la famille 😘",
-      "Reste toujours souriante 🌞"
-    ];
-
-    let balloonsClicked = 0;
-    const totalBalloons = 6; // après 6 clics → poème
-
+    // Génère les ballons en continu
     function createBalloon() {
       const balloon = document.createElement("div");
       balloon.className = "balloon";
-      balloon.style.left = Math.random() * 85 + "vw";
+      balloon.style.left = Math.random() * 90 + "vw";
       balloon.style.background = `radial-gradient(circle at 30% 30%, hsl(${Math.random()*360},70%,70%), hsl(${Math.random()*360},70%,40%))`;
-
       const string = document.createElement("div");
       string.className = "string";
       balloon.appendChild(string);
       document.body.appendChild(balloon);
 
-      balloon.addEventListener("click", () => {
-        // Message doux
-        const msg = messages[Math.floor(Math.random() * messages.length)];
-        document.getElementById("message").innerText = msg;
-        document.getElementById("message").style.display = "block";
-
-        // Effet pop
-        balloon.style.transition = "transform 0.2s, opacity 0.2s";
-        balloon.style.transform = "scale(1.5)";
-        balloon.style.opacity = "0";
-        setTimeout(() => balloon.remove(), 200);
-
-        balloonsClicked++;
-        if (balloonsClicked >= totalBalloons) {
-          document.getElementById("message").style.display = "none";
-          document.getElementById("poem").style.display = "block";
-          launchConfetti();
-        }
-      });
-
-      setTimeout(() => { balloon.remove(); }, 12000);
+      setTimeout(() => { balloon.remove(); }, 10000);
     }
+    setInterval(createBalloon, 1000);
 
-    setInterval(createBalloon, 2000);
+    // Affiche le poème automatiquement après 6 secondes
+    setTimeout(() => {
+      document.getElementById("poem").style.display = "block";
+      launchConfetti();
+    }, 6000);
 
     // 🎊 Confettis à la fin
     function launchConfetti() {
