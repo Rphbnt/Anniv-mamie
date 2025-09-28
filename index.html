@@ -24,23 +24,24 @@
       position: relative;
     }
     .balloon {
-      width: 80px;
-      height: 100px;
+      width: 100px;   /* plus grand */
+      height: 130px;  /* plus grand */
       border-radius: 50%;
       position: absolute;
-      bottom: -120px;
+      bottom: -150px;
       cursor: pointer;
       animation: floatUp 10s linear forwards;
       display: flex;
       justify-content: center;
       align-items: flex-end;
       z-index: 1;
+      box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
     }
     .string {
-      width: 2px;
-      height: 60px;
+      width: 3px;
+      height: 70px;
       background: #333;
-      margin-bottom: -60px;
+      margin-bottom: -70px;
     }
     @keyframes floatUp {
       from { transform: translateY(0); }
@@ -77,8 +78,8 @@
     /* Confettis */
     .confetti {
       position: fixed;
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       background: red;
       top: -10px;
       animation: fall 3s linear forwards;
@@ -113,12 +114,12 @@
     ];
 
     let balloonsClicked = 0;
-    const totalBalloons = 8; // après 8 ballons cliqués → poème
+    const totalBalloons = 6; // après 6 clics → poème
 
     function createBalloon() {
       const balloon = document.createElement("div");
       balloon.className = "balloon";
-      balloon.style.left = Math.random() * 90 + "vw";
+      balloon.style.left = Math.random() * 85 + "vw";
       balloon.style.background = `radial-gradient(circle at 30% 30%, hsl(${Math.random()*360},70%,70%), hsl(${Math.random()*360},70%,40%))`;
 
       const string = document.createElement("div");
@@ -132,9 +133,9 @@
         document.getElementById("message").innerText = msg;
         document.getElementById("message").style.display = "block";
 
-        // Pop visuel
+        // Effet pop
         balloon.style.transition = "transform 0.2s, opacity 0.2s";
-        balloon.style.transform = "scale(1.3)";
+        balloon.style.transform = "scale(1.5)";
         balloon.style.opacity = "0";
         setTimeout(() => balloon.remove(), 200);
 
@@ -149,11 +150,11 @@
       setTimeout(() => { balloon.remove(); }, 12000);
     }
 
-    setInterval(createBalloon, 1500);
+    setInterval(createBalloon, 2000);
 
     // 🎊 Confettis à la fin
     function launchConfetti() {
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 120; i++) {
         const confetti = document.createElement("div");
         confetti.className = "confetti";
         confetti.style.left = Math.random() * 100 + "vw";
