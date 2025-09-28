@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Joyeux Anniversaire Mamie 🎂</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: linear-gradient(to top right, #ffcccc, #ffe6e6);
+      overflow: hidden;
+      font-family: "Comic Sans MS", cursive;
+      text-align: center;
+    }
+    h1 {
+      color: #d63384;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    .balloon {
+      width: 80px;
+      height: 100px;
+      background: radial-gradient(circle at 30% 30%, #ff6699, #cc3366);
+      border-radius: 50% 50% 50% 50%;
+      position: absolute;
+      bottom: -120px;
+      cursor: pointer;
+      animation: floatUp 10s linear infinite;
+    }
+    .string {
+      width: 2px;
+      height: 60px;
+      background: #333;
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    @keyframes floatUp {
+      from { transform: translateY(0); }
+      to { transform: translateY(-120vh); }
+    }
+    .message {
+      position: fixed;
+      bottom: 30px;
+      font-size: 1.5em;
+      color: #333;
+      background: #fff8dc;
+      padding: 10px 20px;
+      border-radius: 10px;
+      display: none;
+      animation: fadeIn 1s;
+    }
+    .poem {
+      display: none;
+      font-size: 1.3em;
+      color: #4b2c5e;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 600px;
+      line-height: 1.5em;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Joyeux Anniversaire Mamie 🎉</h1>
+  <div class="message" id="message"></div>
+  <div class="poem" id="poem">
+    <p>🌸 Ma douce mamie, en ce beau jour,<br>
+    Nous t’offrons nos rires, nos câlins, notre amour.<br>
+    Chaque sourire que tu partages,<br>
+    Est pour nous le plus beau des voyages.<br><br>
+    Merci pour ta tendresse infinie,<br>
+    Ta chaleur, ta force, ta magie.<br>
+    Joyeux anniversaire, chère mamie,<br>
+    Tu es le trésor de toute notre vie. ❤️</p>
+  </div>
+
+  <script>
+    const messages = [
+      "On t’aime Mamie ❤️",
+      "Merci pour tes câlins 🤗",
+      "Tu es la meilleure 🌸",
+      "Bisous de toute la famille 😘",
+      "Reste toujours souriante 🌞"
+    ];
+
+    let balloonsClicked = 0;
+    const totalBalloons = 8; // après 8 ballons cliqués, on affiche le poème
+
+    function createBalloon() {
+      const balloon = document.createElement("div");
+      balloon.className = "balloon";
+      balloon.style.left = Math.random() * 90 + "vw";
+      balloon.style.background = `radial-gradient(circle at 30% 30%, hsl(${Math.random()*360},70%,70%), hsl(${Math.random()*360},70%,40%))`;
+      const string = document.createElement("div");
+      string.className = "string";
+      balloon.appendChild(string);
+      document.body.appendChild(balloon);
+
+      balloon.addEventListener("click", () => {
+        const msg = messages[Math.floor(Math.random() * messages.length)];
+        document.getElementById("message").innerText = msg;
+        document.getElementById("message").style.display = "block";
+        balloon.remove();
+        balloonsClicked++;
+
+        if (balloonsClicked >= totalBalloons) {
+          document.getElementById("message").style.display = "none";
+          document.getElementById("poem").style.display = "block";
+        }
+      });
+
+      setTimeout(() => { balloon.remove(); }, 12000);
+    }
+
+    setInterval(createBalloon, 1500);
+  </script>
+</body>
+</html>
